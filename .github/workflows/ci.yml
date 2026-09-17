@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install -e '.[dev]'
+      - run: ruff check .
+      - run: pytest -q
+
+  leak-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: No datasets, photos or model weights
+        run: |
+          files=$(git ls-files -- ':!docs/**' \
+            | grep -Ei '\.(jpe?g|png|webp|heic|jsonl|npz|pt|pth|onnx|tflite|hef|mlmodel)$' || true)
+          if [ -n "$files" ]; then
+            echo "Data or model files must not be committed:"
+            echo "$files"
+            exit 1
+          fi
+
+      - name: No store-specific identifiers
+        env:
+          LEAK_PATTERNS: ${{ secrets.LEAK_PATTERNS }}
+        run: |
+          if [ -z "$LEAK_PATTERNS" ]; then
+            echo "LEAK_PATTERNS secret not set (e.g. a fork); skipping."
+            exit 0
+          fi
+          printf '%s\n' "$LEAK_PATTERNS" | grep -v '^$' > "$RUNNER_TEMP/patterns"
+          # -l prints only file names, so the private patterns never reach the public log.
+          if files=$(git grep -I -l -F -f "$RUNNER_TEMP/patterns" -- .); then
+            echo "Store-specific identifiers found in:"
+            echo "$files"
+            exit 1
+          fi

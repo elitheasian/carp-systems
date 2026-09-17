@@ -1,0 +1,28 @@
+# Shopify catalog mapping for `carp ingest-shopify`.
+# Copy to config/shopify.local.toml (git-ignored) and fill in your store's real names.
+
+[products]
+# productType of listings with one fish per photo, and with several lettered fish per photo.
+single_type = "Single_Fish"
+group_type = "Group_Fish"
+
+[group]
+# Group variant titles start with the fish's letter, e.g. 'A: 8-9" Showa'. Group 1 = letter.
+letter_pattern = '^\s*([A-Z]{1,2})\s*:'
+
+[variant_metafields]
+# Logical field = "namespace.key" of the variant metafield holding it.
+variety = "your_namespace.variety"            # display name, e.g. "Ginrin Showa"
+base_variety = "your_namespace.base_variety"  # e.g. "Showa"
+variety_ref = "your_namespace.variety_ref"    # metaobject reference; its handle is the label
+scale_type = "your_namespace.scale_type"      # e.g. "Doitsu"
+scale_trait = "your_namespace.scale_trait"    # list, e.g. ["Ginrin"]
+fin_type = "your_namespace.fin_type"          # e.g. "Butterfly"
+pattern = "your_namespace.pattern"            # list, e.g. ["Tancho"]
+size_cm = "your_namespace.size_cm"            # integer
+pond_id = "your_namespace.pond"               # where the fish is kept
+replaces = "your_namespace.replaces"          # variant reference to an earlier listing of the fish
+
+[labels]
+# Base varieties that don't name a real variety. These fish are skipped.
+not_a_variety = ["koi"]

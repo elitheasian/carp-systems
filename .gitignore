@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+dist/
+build/
+
+# Secrets
+.env
+.env.*
+!.env.example
+config/*.local.toml
+
+# Local-only notes (store details, business numbers)
+/private/
+
+# Data and models never go in git (ChampKoi photos and inventory stay private)
+/data/
+/models/
+/runs/
+/spool/
+*.pt
+*.pth
+*.onnx
+*.tflite
+*.hef
+*.mlpackage/
+*.mlmodel
+*.npz
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Mobile
+node_modules/
+apps/mobile/ios/
+apps/mobile/android/
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/

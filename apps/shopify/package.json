@@ -1,0 +1,24 @@
+{
+  "name": "carp-systems",
+  "version": "1.0.0",
+  "license": "AGPL-3.0-only",
+  "scripts": {
+    "shopify": "shopify",
+    "build": "shopify app build",
+    "dev": "shopify app dev",
+    "info": "shopify app info",
+    "generate": "shopify app generate",
+    "deploy": "shopify app deploy"
+  },
+  "dependencies": {
+    "@shopify/cli": "3.93.0"
+  },
+  "trustedDependencies": [
+    "@shopify/plugin-cloudflare"
+  ],
+  "author": "ekg",
+  "private": true,
+  "workspaces": [
+    "extensions/*"
+  ]
+}

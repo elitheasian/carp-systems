@@ -1,0 +1,25 @@
+# CARP's Shopify app. It exists only to grant the Python tools read-only Admin API access
+# (see ../../docs/data.md). There is no app UI, so the URLs are Shopify's placeholders.
+#
+# Copy to shopify.app.<name>.toml (git-ignored), set client_id, and pass --config <name>.
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "your_client_id"
+name = "CARP Systems"
+application_url = "https://shopify.dev/apps/default-app-home"
+embedded = false
+
+[build]
+automatically_update_urls_on_dev = false
+
+[webhooks]
+api_version = "2026-10"
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+# read_products: koi products, variants, media, variant metafields
+# read_metaobjects: variety metaobjects referenced from variants
+scopes = "read_products,read_metaobjects"
+
+[auth]
+redirect_urls = [ "https://shopify.dev/apps/default-app-home/api/auth" ]
